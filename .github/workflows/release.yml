@@ -1,0 +1,39 @@
+name: Rust
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macOS-latest, ubuntu-latest, ubuntu-16.04]
+        version: ['5.7', '5.9', '5.12.0', '5.15.1']
+    steps:
+
+      - name: Configure test project on windows
+        if: startsWith(matrix.os, 'windows')
+        run: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/KDE/craft/master/setup/install_craft.ps1'))
+        shell: powershell
+          
+      - name: Configure test project on unix
+        if: (!startsWith(matrix.os, 'windows'))
+        run: |
+          cd tests/TestWithModules
+          ls $Qt5_DIR/lib/cmake
+          qmake
+        shell: bash
+  
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo test --verbose
+
+   
