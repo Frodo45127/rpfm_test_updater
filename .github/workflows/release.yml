@@ -14,13 +14,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macOS-latest, ubuntu-latest, ubuntu-16.04]
-        version: ['5.7', '5.9', '5.12.0', '5.15.1']
+        os: [windows-latest]
+        version: ['5.9']
     steps:
 
       - name: Configure test project on windows
         if: startsWith(matrix.os, 'windows')
-        run: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/KDE/craft/master/setup/install_craft.ps1'))
+        run: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/KDE/craft/master/setup/install_craft.ps1')) -Confirm:$false
         shell: powershell
           
       - name: Configure test project on unix
