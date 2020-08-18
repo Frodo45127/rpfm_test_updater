@@ -37,7 +37,13 @@ jobs:
       - name: Configure test project on windows
         if: startsWith(matrix.os, 'windows')
     
-        run: C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1 | craft -i ktexteditor
+        run: C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
+        shell: powershell  
+        
+      - name: Configure test project on windows
+        if: startsWith(matrix.os, 'windows')
+    
+        run: craft -i ktexteditor
         shell: powershell  
         
       - name: Configure test project on unix
