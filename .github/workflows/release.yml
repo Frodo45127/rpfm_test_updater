@@ -34,6 +34,12 @@ jobs:
         run: C:\hostedtoolcache\windows\Python\3.8.5\x64\python.exe C:\hostedtoolcache\windows\Craft\download\CraftBootstrap.py --prefix C:\hostedtoolcache\windows\Craft --branch master
         shell: powershell  
         
+      - name: Configure test project on windows
+        if: startsWith(matrix.os, 'windows')
+    
+        run: C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1 -and craft -i ktexteditor
+        shell: powershell  
+        
       - name: Configure test project on unix
         if: (!startsWith(matrix.os, 'windows'))
         run: |
