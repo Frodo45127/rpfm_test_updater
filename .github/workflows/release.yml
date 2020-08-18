@@ -26,6 +26,10 @@ jobs:
         run: |
           $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
           Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
+          C:\hostedtoolcache\windows\Python\3.8.5\x64\python.exe C:\hostedtoolcache\windows\Craft\download\CraftBootstrap.py --prefix C:\hostedtoolcache\windows\Craft --branch master
+          Write-Host "----------------------------------------------------------------------------------"
+          C:\hostedtoolcache\windows\Python\3.8.5\x64\python.exe "C:\hostedtoolcache\windows\Craft\craft\bin\craft.py" -v -i ktexteditor
+          Write-Host "3---------------------------------------------------------------------------------"
         shell: powershell          
           
       - name: Configure test project on windows
