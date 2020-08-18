@@ -24,9 +24,7 @@ jobs:
       - name: Configure test project on windows
         if: startsWith(matrix.os, 'windows')
     
-        run: |
-          $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
-          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
+        run: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
         shell: powershell          
           
       - name: Configure test project on unix
