@@ -38,7 +38,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Compilation on Windows
-        if: startsWith(matrix.os, 'windows')
+        if: startsWith(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
       
         run: |
           $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
@@ -46,8 +46,3 @@ jobs:
           C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
           craft -i ktexteditor
         shell: pwsh   
-      
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-
