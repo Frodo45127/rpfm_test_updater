@@ -12,16 +12,40 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted 
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [windows-latest]
-        version: ['5.9']
+        rust:
+          - stable
+
     steps:
+      - uses: actions/checkout@v2
+      - uses: ilammy/msvc-dev-cmd@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: rustfmt, clippy
+
       - name: Compilation on Windows
         if: startsWith(matrix.os, 'windows')
 
         run: |
-          C:\CraftRoot\craft\craftenv.ps1
-          cargo build --verbose --release
-        shell: powershell   
+          $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
+          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
+        shell: pwsh   
+        
+      - name: Compilsation on Windows
+        if: startsWith(matrix.os, 'windows')
+
+        run: |
+          C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
+          craft -i ktexteditor
+        shell: pwsh
+      
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+
