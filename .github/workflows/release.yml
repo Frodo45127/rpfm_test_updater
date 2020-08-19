@@ -22,6 +22,6 @@ jobs:
         if: startsWith(matrix.os, 'windows')
 
         run: |
-          C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
+          C:\CraftRoot\craft\craftenv.ps1
           cargo build --verbose --release
         shell: powershell   
