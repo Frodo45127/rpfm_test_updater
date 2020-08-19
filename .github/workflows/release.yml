@@ -24,4 +24,4 @@ jobs:
         run: |
           C:\CraftRoot\craft\craftenv.ps1
           cargo build --verbose --release
-        shell: powershell   
+        shell: pwsh   
