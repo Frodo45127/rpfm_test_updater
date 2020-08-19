@@ -27,7 +27,7 @@ jobs:
           Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
         shell: pwsh   
         
-      - name: Compilation on Windows
+      - name: Compilsation on Windows
         if: startsWith(matrix.os, 'windows')
 
         run: |
