@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, ubuntu-latest]
         rust:
           - stable
 
@@ -31,19 +31,19 @@ jobs:
 
       - name: Compilation on Windows
         if: startsWith(matrix.os, 'windows')
-
         run: |
           $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
           Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
-        shell: pwsh   
-        
-      - name: Compilsation on Windows
-        if: startsWith(matrix.os, 'windows')
-
-        run: |
           C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
           craft -i ktexteditor
-        shell: pwsh
+        shell: pwsh   
+        
+      - name: Compilation on Ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          apt install qt5
+          apt install kframework
+        shell: sh
       
       - uses: actions-rs/cargo@v1
         with:
