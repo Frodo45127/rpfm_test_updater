@@ -18,52 +18,10 @@ jobs:
         os: [windows-latest]
         version: ['5.9']
     steps:
-      - uses: actions/setup-python@v2
-      - uses: ilammy/msvc-dev-cmd@v1
-      - name: Configure test project on windows
+      - name: Compilation on Windows
         if: startsWith(matrix.os, 'windows')
-    
-        run: |
-          $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
-          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
-        shell: powershell          
-          
-      - name: Configure test project on windows
-        if: startsWith(matrix.os, 'windows')
-    
-        run: |
-          $ENV:PATH="C:\hostedtoolcache\windows\Craft\bin;$ENV:PATH"
-          C:\hostedtoolcache\windows\Python\3.8.5\x64\python.exe C:\hostedtoolcache\windows\Craft\download\CraftBootstrap.py --prefix C:\hostedtoolcache\windows\Craft --branch master
-          Write-Host "----------------------------------------------------------------------------------"
-          C:\hostedtoolcache\windows\Python\3.8.5\x64\python.exe "C:\hostedtoolcache\windows\Craft\craft\bin\craft.py" -v -i ktexteditor
-          Write-Host "2---------------------------------------------------------------------------------"
-          craft -i ktexteditor
-          Write-Host "3---------------------------------------------------------------------------------"
-        shell: powershell  
-        
-      - name: Configure test project on windows
-        if: startsWith(matrix.os, 'windows')
-    
-        run: C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
-        shell: powershell  
-        
-      - name: Configure test project on windows
-        if: startsWith(matrix.os, 'windows')
-    
-        run: C:\hostedtoolcache\windows\Python\3.8.5\x64\python.exe C:\hostedtoolcache\windows\Craft\bin\craft.py -i ktexteditor
-        shell: powershell  
-        
-      - name: Configure test project on unix
-        if: (!startsWith(matrix.os, 'windows'))
-        run: |
-          cd tests/TestWithModules
-          ls $Qt5_DIR/lib/cmake
-          qmake
-        shell: bash
-  
-      - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
 
-   
+        run: |
+          C:\CraftRoot\craft\craftenv.ps1
+          cargo build --verbose --release
+        shell: powershell   
