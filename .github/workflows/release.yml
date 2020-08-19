@@ -29,8 +29,17 @@ jobs:
           override: true
           components: rustfmt, clippy
 
+      - uses: actions/cache@v2
+        with:
+          path: |
+            C:\hostedtoolcache\windows\Craft
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Compilation on Windows
         if: startsWith(matrix.os, 'windows')
+      
         run: |
           $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
           Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
