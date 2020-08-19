@@ -37,13 +37,6 @@ jobs:
           C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
           craft -i ktexteditor
         shell: pwsh   
-        
-      - name: Compilation on Ubuntu
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          apt install qt5
-          apt install kframework
-        shell: sh
       
       - uses: actions-rs/cargo@v1
         with:
