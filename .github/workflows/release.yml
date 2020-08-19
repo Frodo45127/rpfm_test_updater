@@ -12,16 +12,19 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted 
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [windows-latest]
         version: ['5.9']
     steps:
+      - uses: ilammy/msvc-dev-cmd@v1
       - name: Compilation on Windows
         if: startsWith(matrix.os, 'windows')
 
         run: |
+          $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
+          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
           C:\CraftRoot\craft\craftenv.ps1
           cargo build --verbose --release
         shell: pwsh   
