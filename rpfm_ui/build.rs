@@ -26,30 +26,6 @@ use winres;
 fn main() {
     common_config();
 
-    // These check whether you have qmake and nmake installed, because they're needed to get the custom widget's lib compiled.
-    if Command::new("qmake").output().is_err() {
-        stdout().write(b"ERROR: You either don't have qmake installed, or it's not in the path. Fix that before continuing.").unwrap();
-        exit(98);
-    }
-
-    if Command::new("nmake").output().is_err() {
-        stdout().write(b"ERROR: You either don't have nmake installed, or it's not in the path. Fix that before continuing.").unwrap();
-        exit(99);
-    }
-
-    // This creates the makefile for the custom widget lib.
-    Command::new("qmake")
-        .arg("-o")
-        .arg("Makefile")
-        .arg("qt_subclasses.pro")
-        .current_dir("qt_subclasses/")
-        .output().unwrap();
-
-    // This compiles the custom widgets lib.
-    Command::new("nmake")
-        .current_dir("qt_subclasses/")
-        .output().unwrap();
-
     // Icon/Exe info gets added here.
     let mut res = winres::WindowsResource::new();
     res.set_icon("./../img/rpfm.ico");
