@@ -53,7 +53,7 @@ jobs:
         run: |
           #D:\Craft\craft\craftenv.ps1
           cd D:/a/rpfm_test_updater/rpfm_test_updater
-          cargo build --release
+          cargo build --bin rpfm_cli
         shell: pwsh
 
       - name: Prepare Assets for Release
