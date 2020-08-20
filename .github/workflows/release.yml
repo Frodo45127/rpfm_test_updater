@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: battila7/get-version-action@v2
       - uses: ilammy/msvc-dev-cmd@v1
       - uses: actions-rs/toolchain@v1
         with:
@@ -70,7 +71,7 @@ jobs:
           cp D:/a/rpfm_test_updater/rpfm_test_updater/img/* D:\deploy\win\rpfm-release-assets\img\
           cp D:/a/rpfm_test_updater/rpfm_test_updater/locale/* D:\deploy\win\rpfm-release-assets\locale\
           cd rpfm-release-assets
-          7z a rpfm-${{ github.ref }}-x86_64-pc-windows-msvc.zip .\**
+          7z a rpfm-${{ steps.get_version.outputs.version }}-x86_64-pc-windows-msvc.zip .\**
 
       - name: Create Release
         id: create_release
@@ -94,6 +95,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: D:/deploy/win/rpfm-release-assets/rpfm-${{ github.ref }}-x86_64-pc-windows-msvc.zip
-          asset_name: rpfm-${{ github.ref }}-x86_64-pc-windows-msvc.zip
+          asset_path: D:/deploy/win/rpfm-release-assets/rpfm-${{ steps.get_version.outputs.version }}-x86_64-pc-windows-msvc.zip
+          asset_name: rpfm-${{ steps.get_version.outputs.version }}-x86_64-pc-windows-msvc.zip
           asset_content_type: application/x-zip-compressed
