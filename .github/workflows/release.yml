@@ -74,7 +74,7 @@ jobs:
           cp D:/a/rpfm_test_updater/rpfm_test_updater/img/* D:\deploy\win\rpfm-release-assets\img\
           cp D:/a/rpfm_test_updater/rpfm_test_updater/locale/* D:\deploy\win\rpfm-release-assets\locale\
           cd rpfm-release-assets
-          7z a rpfm-v${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip .\rpfm-release-assets\**
+          7z a rpfm-v${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip .\**
 
       - name: Create Release
         id: create_release
