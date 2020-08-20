@@ -68,9 +68,9 @@ jobs:
           curl -L -o rpfm-release-assets-windows-x64.zip https://www.dropbox.com/s/2ko2ssvgxjhb9kt/rpfm-release-assets-windows-x64.zip?dl=0
           7z x rpfm-release-assets-windows-x64.zip
           #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.exe D:\deploy\win\rpfm-release-assets
-          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/debug/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.pdb D:\deploy\win\rpfm-release-assets
-          #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
+          #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/debug/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/img/* D:\deploy\win\rpfm-release-assets\img\
           cp D:/a/rpfm_test_updater/rpfm_test_updater/locale/* D:\deploy\win\rpfm-release-assets\locale\
           cd rpfm-release-assets
