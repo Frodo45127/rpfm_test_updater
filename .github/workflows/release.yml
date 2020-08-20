@@ -1,14 +1,12 @@
 name: Rust
   
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  create:
+    tags:
+      - v*.*.*
 
 env:
   CARGO_TERM_COLOR: always
-
 
 jobs:
   build:
@@ -20,6 +18,10 @@ jobs:
           - stable
 
     steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - uses: actions/checkout@v2
       - uses: ilammy/msvc-dev-cmd@v1
       - uses: actions-rs/toolchain@v1
@@ -53,7 +55,27 @@ jobs:
           cd D:/a/rpfm_test_updater/rpfm_test_updater
           cargo build --release
         shell: pwsh   
-        
+      
+      - name: Prepare Assets for Release
+        if: startsWith(matrix.os, 'windows')
+      
+        run: |
+          cd D:\
+          mkdir deploy
+          cd deploy
+          mkdir win
+          cd win
+          curl -L -o rpfm-release-assets-windows-x64.zip https://www.dropbox.com/s/2ko2ssvgxjhb9kt/rpfm-release-assets-windows-x64.zip?dl=0
+          7z x rpfm-release-assets-windows-x64.zip
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.exe D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.pdb D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/img/* D:\deploy\win\rpfm-release-assets\img\
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/locale/* D:\deploy\win\rpfm-release-assets\locale\
+          cd rpfm-release-assets
+          7z a rpfm-v${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip .\rpfm-release-assets\**      
+      
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -76,6 +98,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.exe
-          asset_name: rpfm_ui.exe
-          asset_content_type: application/exe
+          asset_path: D:/deploy/win/rpfm-v${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip
+          asset_name: rpfm-v${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip
+          asset_content_type: application/x-zip-compressed
