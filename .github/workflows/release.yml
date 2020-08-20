@@ -32,16 +32,16 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: |
-            C:\hostedtoolcache\windows\Craft
-          key: ${{ runner.os }}-craft
+            D:\Craft
+          key: ${{ runner.os }}-Craft-Install
 
       - name: Installing Qt5 & KTextEditor on Windows
         if: startsWith(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
       
         run: |
           $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
-          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
-          C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
+          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "D:\Craft"
+          D:\Craft\craft\craftenv.ps1
           craft -i --ci-mode ktexteditor
         shell: pwsh   
       
@@ -49,7 +49,7 @@ jobs:
         if: startsWith(matrix.os, 'windows')
       
         run: |
-          C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
+          D:\Craft\craft\craftenv.ps1
           cd D:/a/rpfm_test_updater/rpfm_test_updater
           cargo build --release
         shell: pwsh   
