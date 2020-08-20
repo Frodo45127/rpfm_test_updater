@@ -33,7 +33,7 @@ jobs:
         with:
           path: |
             C:\hostedtoolcache\windows\Craft
-          key: ${{ runner.os }}-cargo-${{ hashFiles('C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1') }}
+          key: ${{ runner.os }}-craft
 
       - name: Installing Qt5 & KTextEditor on Windows
         if: startsWith(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
