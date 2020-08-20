@@ -33,11 +33,9 @@ jobs:
         with:
           path: |
             C:\hostedtoolcache\windows\Craft
-            ~/.cargo/registry
-            ~/.cargo/git
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1') }}
 
-      - name: Compilation on Windows
+      - name: Installing Qt5 & KTextEditor on Windows
         if: startsWith(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
       
         run: |
@@ -45,6 +43,13 @@ jobs:
           Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
           C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
           craft -i --ci-mode ktexteditor
+        shell: pwsh   
+      
+      - name: Build on Windows
+        if: startsWith(matrix.os, 'windows')
+      
+        run: |
+          C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
           cd D:/a/rpfm_test_updater/rpfm_test_updater
           cargo build --release
         shell: pwsh   
