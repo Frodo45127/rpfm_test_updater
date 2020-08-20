@@ -45,4 +45,6 @@ jobs:
           Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "C:\hostedtoolcache\windows\Craft"
           C:\hostedtoolcache\windows\Craft\craft\craftenv.ps1
           craft -i --ci-mode ktexteditor
+          cd D:/a/rpfm_test_updater/rpfm_test_updater
+          cargo build --release
         shell: pwsh   
