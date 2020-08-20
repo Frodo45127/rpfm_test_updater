@@ -1,7 +1,7 @@
 name: Rust
   
 on:
-  create:
+  push:
     tags:
       - v*.*.*
 
