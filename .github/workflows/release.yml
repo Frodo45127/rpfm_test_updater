@@ -71,8 +71,8 @@ jobs:
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.pdb D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
-          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/img/* D:\deploy\win\rpfm-release-assets\img\
-          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/locale/* D:\deploy\win\rpfm-release-assets\locale\
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/img/* D:\deploy\win\rpfm-release-assets\img\
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/locale/* D:\deploy\win\rpfm-release-assets\locale\
           cd rpfm-release-assets
           7z a rpfm-v${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip .\rpfm-release-assets\**      
       
