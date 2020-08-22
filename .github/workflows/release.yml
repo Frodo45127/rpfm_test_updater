@@ -74,7 +74,7 @@ jobs:
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.pdb D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
-          cp D:/a/rpfm_test_updater/rpfm_test_updater/LICENSE.md D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/LICENSE D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/img/* D:\deploy\win\rpfm-release-assets\img\
           cp D:/a/rpfm_test_updater/rpfm_test_updater/locale/* D:\deploy\win\rpfm-release-assets\locale\
           cd rpfm-release-assets
