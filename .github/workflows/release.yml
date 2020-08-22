@@ -39,23 +39,24 @@ jobs:
         shell: bash
 
 
-    #  - name: Installing Qt5 & KTextEditor on Windows
-    #    if: startsWith(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
-    #
-    #    run: |
-    #      $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
-    #      Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "D:\Craft"
-    #      D:\Craft\craft\craftenv.ps1
-    #      craft -i --ci-mode ktexteditor
-    #    shell: pwsh
+      - name: Installing Qt5 & KTextEditor on Windows
+        if: startsWith(matrix.os, 'windows') && steps.cache.outputs.cache-hit != 'true'
+
+        run: |
+          $scriptPath = ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/Frodo45127/craft/master/setup/install_craft.ps1'))
+          Invoke-Command -ScriptBlock ([scriptblock]::Create($scriptPath)) -ArgumentList "D:\Craft"
+          D:\Craft\craft\craftenv.ps1
+          craft -i --ci-mode ktexteditor
+        shell: pwsh
 
       - name: Build on Windows
         if: startsWith(matrix.os, 'windows')
 
         run: |
-          #D:\Craft\craft\craftenv.ps1
+          D:\Craft\craft\craftenv.ps1
           cd D:/a/rpfm_test_updater/rpfm_test_updater
-          #cargo build --bin rpfm_cli
+          cargo test
+          cargo build --release
         shell: pwsh
 
       - name: Prepare Assets for Release
@@ -69,10 +70,11 @@ jobs:
           cd win
           curl -L -o rpfm-release-assets-windows-x64.zip https://www.dropbox.com/s/2ko2ssvgxjhb9kt/rpfm-release-assets-windows-x64.zip?dl=0
           7z x rpfm-release-assets-windows-x64.zip
-          #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.exe D:\deploy\win\rpfm-release-assets
-          #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/debug/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
-          #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.pdb D:\deploy\win\rpfm-release-assets
-          #cp D:/a/rpfm_test_updater/rpfm_test_updater/target/debug/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.exe D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/debug/rpfm_cli.exe D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/release/rpfm_ui.pdb D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/target/debug/rpfm_cli.pdb D:\deploy\win\rpfm-release-assets
+          cp D:/a/rpfm_test_updater/rpfm_test_updater/LICENSE.md D:\deploy\win\rpfm-release-assets
           cp D:/a/rpfm_test_updater/rpfm_test_updater/img/* D:\deploy\win\rpfm-release-assets\img\
           cp D:/a/rpfm_test_updater/rpfm_test_updater/locale/* D:\deploy\win\rpfm-release-assets\locale\
           cd rpfm-release-assets
